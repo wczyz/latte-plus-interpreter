@@ -1,0 +1,26 @@
+int main() {
+    string a = "a";
+
+    auto g() {
+        string b = "b";
+
+        return () => auto {
+            string c = "c";
+
+            return () => auto {
+                string d = "d";
+
+                print(a);
+                print(b);
+                print(c);
+                print(d);
+            };
+        };
+    };
+
+    auto f = g();
+    auto f = f();
+    f();
+
+    return 0;
+}

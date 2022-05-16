@@ -1,0 +1,8 @@
+int f() {
+  return -10 + 5 * 2;
+}
+
+int main() {
+  int a = 100 % 3;
+  int b = 1 % f();
+}

@@ -1,0 +1,34 @@
+int(int) f(int x) {
+  int g(int y) {
+    return x + y;
+  }
+  return g;
+}
+
+int(int) h(int x) {
+  int z = 0;
+  return (int y) => int {
+    z++;
+    return x + y + z;
+  };
+}
+
+int main() {
+  auto a = f(1);
+  auto b = h(1);
+
+  int x = 40;
+  int y = 50;
+
+  print(a(5));
+  print(b(5));
+  print(b(5));
+  print(b(5));
+
+  auto b = h(10);
+  print(b(0));
+  print(b(0));
+  print(b(0));
+
+  return 0;
+}

@@ -1,0 +1,14 @@
+int main() {
+  int a = 1;
+  auto f = () => auto {
+    return a;
+  };
+
+  auto g() {
+    return a;
+  }
+
+  a = a + 1;
+  print(f());
+  print(g());
+}

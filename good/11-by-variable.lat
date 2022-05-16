@@ -1,0 +1,10 @@
+void f(boolean b) {
+  print(b);
+}
+
+int main() {
+  boolean b = true;
+  f(b);
+
+  return 0;
+}

@@ -1,0 +1,11 @@
+int main() {
+  int a = 15;
+  string b = "heyo";
+  boolean c = false;
+  
+  print(a);
+  print(b);
+  print(c);
+
+  return 0;
+}

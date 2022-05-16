@@ -1,0 +1,15 @@
+int main() {
+  int a = -1;
+  auto f() {
+    int a = 1;
+    return () => int {
+      return a;
+    };
+  };
+
+  a = a + 2;
+  auto g = f();
+  print(g());
+
+  return 0;
+}

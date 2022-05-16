@@ -1,0 +1,9 @@
+void f(string s) {
+  print(s);
+}
+
+int main() {
+  f("heyo");
+
+  return 0;
+}

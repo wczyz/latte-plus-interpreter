@@ -1,0 +1,14 @@
+int pow(int a, int b) {
+  int result = a;
+  while (b > 1) {
+    result = result * a;
+    b--;
+  }
+  return result;
+}
+
+int main() {
+  print(pow(3, 4));
+
+  return 0;
+}
