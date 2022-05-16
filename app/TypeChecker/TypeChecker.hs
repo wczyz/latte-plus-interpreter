@@ -72,14 +72,6 @@ instance Check (Abs.Ident, Type) where
     env <- saveType id t
     returnEnv env
 
--- instance Check (Abs.Ident, Type) => Check [(Abs.Ident, Type)] where
---   check (x : xs) = do
---     checked@(_, env) <- check x
---     case xs of
---       [] -> return checked
---       _  -> local (const env) (check xs)
---   check [] = returnValue Void
-
 instance Check a => Check [a] where
   check (x : xs) = do
     checked@(_, env) <- check x
@@ -87,11 +79,3 @@ instance Check a => Check [a] where
       [] -> return checked
       _  -> local (const env) (check xs)
   check [] = returnValue Void
-
--- instance CheckList Abs.TopDef where
---   checkList (x : xs) = do
---     checked@(_, env) <- check x
---     case xs of
---       [] -> return [checked]
---       _  -> local (const env) (checkList xs)
---   checkList [] = return []

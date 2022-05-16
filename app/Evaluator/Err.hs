@@ -17,6 +17,3 @@ printPosition (Just (row, column)) = "Error in row " ++ show row ++ " and column
 instance Show Err where
   show (DivisionByZero pos) = printPosition pos ++ "Division by zero"
   show (ModuloByZero pos)   = printPosition pos ++ "Modulo by zero"
-
--- catchE :: Interpreter a -> (Err -> Interpreter a) -> Interpreter a
--- catchE = liftCatch (R.liftCatch E.catchE)

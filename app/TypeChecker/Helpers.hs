@@ -34,6 +34,7 @@ assertSameTypes :: Type -> Type -> Abs.BNFC'Position -> Env -> TypeChecker Resul
 assertSameTypes t1 t2 pos env = if t1 == t2
                                then returnEnv env
                                else returnEnv env
+                               -- TODO: uncomment when typechecker will be ready
                                -- else throwE $ MismatchError t1 t2 pos
 
 emptyPosition :: Abs.BNFC'Position
