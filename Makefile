@@ -1,11 +1,12 @@
 GENERATED=generated
+BNFC=/home/students/inf/PUBLIC/MRJP/bin/bnfc
+# BNFC=bnfc
 
 all:
 	mkdir -p $(GENERATED)
-	bnfc Latte.cf --functor --haskell -m -o $(GENERATED)
+	$(BNFC) Latte.cf --functor --haskell -m -o $(GENERATED)
 	cd $(GENERATED) && make
 	cabal build
-	# ghc --make Main.hs -o interpreter
 
 test: 
 	# good
