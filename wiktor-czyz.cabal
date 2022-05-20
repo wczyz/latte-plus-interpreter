@@ -44,7 +44,7 @@ executable interpreter
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
-    build-depends:    base ^>=4.13.0.0
+    build-depends:    base >= 4.13
                     , transformers
                     , containers
                     , array
