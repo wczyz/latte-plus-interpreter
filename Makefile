@@ -7,6 +7,8 @@ all:
 	$(BNFC) Latte.cf --functor --haskell -m -o $(GENERATED)
 	cd $(GENERATED) && make
 	cabal build
+	# cp dist-newstyle/build/x86_64-linux/ghc-9.0.2/latte-0.1.0.0/x/interpreter/build/interpreter/interpreter .
+	cp dist-newstyle/build/x86_64-linux/ghc-8.8.4/latte-0.1.0.0/x/interpreter/build/interpreter/interpreter .
 
 test: 
 	# good
