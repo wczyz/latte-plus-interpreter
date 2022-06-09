@@ -20,15 +20,18 @@ int main() {
   int x = 40;
   int y = 50;
 
-  print(a(5));
-  print(b(5));
-  print(b(5));
-  print(b(5));
+  printInt(a(5));
+  printInt(a(5));
+  printInt(a(5));
+
+  printInt(b(5));
+  printInt(b(5));
+  printInt(b(5));
 
   auto b = h(10);
-  print(b(0));
-  print(b(0));
-  print(b(0));
+  printInt(b(0));
+  printInt(b(0));
+  printInt(b(0));
 
   return 0;
 }

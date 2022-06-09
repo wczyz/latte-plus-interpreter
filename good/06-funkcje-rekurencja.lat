@@ -9,7 +9,7 @@ int fib(int n) {
 }
 
 int main () {
-  print(fib(12));
+  printInt(fib(12));
 
   return 0;
 }

@@ -1,0 +1,4 @@
+int main() {
+  printInt(f());
+  return 0;
+}

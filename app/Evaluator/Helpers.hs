@@ -28,6 +28,12 @@ returnEnv env = return (Null, env)
 emptyPosition :: Abs.BNFC'Position
 emptyPosition = Nothing
 
+emptyBlock :: Abs.Block
+emptyBlock = Abs.Block emptyPosition []
+
+emptyFunction :: Val
+emptyFunction = Fun [] (Abs.Void emptyPosition) emptyBlock initEnv
+
 instance Show Val where
   show (Int v)    = show v
   show (String s) = s

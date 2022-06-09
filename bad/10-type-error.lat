@@ -1,0 +1,6 @@
+int main() {
+  auto x = "test string";
+  x++;
+
+  return 0;
+}

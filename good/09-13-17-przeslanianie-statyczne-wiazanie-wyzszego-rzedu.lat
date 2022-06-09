@@ -1,0 +1,38 @@
+auto fun(int x) {
+    return () => auto {
+        int x = 5;
+        return x;
+    };
+}
+
+int main() {
+    string a = "a";
+
+    auto g() {
+        string b = "b";
+
+        return () => auto {
+            string c = "c";
+
+            return () => auto {
+                string d = "d";
+                
+                printString(a);
+                printString(b);
+                printString(c);
+                printString(d);
+
+                return 5;
+            };
+        };
+    };
+
+    auto f = g();
+    auto f = f();
+    f();
+
+    f = fun(100);
+    printInt(f());
+
+    return 0;
+}

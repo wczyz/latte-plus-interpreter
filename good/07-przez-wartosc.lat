@@ -1,5 +1,6 @@
 void f(string s) {
-  print(s);
+  printString(s);
+  return;
 }
 
 int main() {

@@ -8,7 +8,7 @@ int pow(int a, int b) {
 }
 
 int main() {
-  print(pow(3, 4));
+  printInt(pow(3, 4));
 
   return 0;
 }

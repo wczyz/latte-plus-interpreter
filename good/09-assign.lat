@@ -1,8 +1,0 @@
-int main() {
-  string s = "first string";
-  s = "second string";
-  s = "third string";
-  print(s);
-
-  return 0;
-}

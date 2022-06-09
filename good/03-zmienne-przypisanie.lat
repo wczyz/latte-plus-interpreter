@@ -1,0 +1,19 @@
+int main() {
+  int a = 15;
+  string b = "heyo";
+  boolean c = false;
+  
+  printInt(a);
+  printString(b);
+  printBool(c);
+
+  a = 14;
+  b = "hello";
+  c = true;
+
+  printInt(a);
+  printString(b);
+  printBool(c);
+
+  return 0;
+}

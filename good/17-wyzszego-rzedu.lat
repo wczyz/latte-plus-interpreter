@@ -7,9 +7,9 @@ int main() {
   auto add2 = (int x) => int { return x + 2; };
   auto div2 = (int x) => int { return x / 2; };
 
-  print(f(incr, 10));
-  print(f(add2, -15));
-  print(f(div2, 43));
+  printInt(f(incr, 10));
+  printInt(f(add2, -15));
+  printInt(f(div2, 43));
 
   return 0;
 }

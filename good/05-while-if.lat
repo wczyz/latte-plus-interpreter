@@ -1,8 +1,12 @@
 int main() {
   int i = 5;
   while (i > 0) {
-    print(i);
+    printInt(i);
     i--;
+  }
+
+  if (5 > 4) {
+    printString("bigger");
   }
 
   return 0;

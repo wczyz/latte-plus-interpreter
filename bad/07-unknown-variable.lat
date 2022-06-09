@@ -1,0 +1,4 @@
+int main() {
+  printInt(2+x);
+  return 0;
+}

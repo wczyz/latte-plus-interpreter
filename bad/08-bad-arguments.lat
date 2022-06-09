@@ -1,0 +1,10 @@
+int double(int x) {
+  return x * 2;
+}
+
+int main() {
+  int a = 5;
+  printInt(double(a, a));
+
+  return 0;
+}

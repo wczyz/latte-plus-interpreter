@@ -2,7 +2,7 @@ int main() {
   int a = 1;
   auto f() {
     int a = 2;
-    print(a);
+    printInt(a);
   }
   f();
 

@@ -14,13 +14,13 @@ checkType x = do
   (t, _) <- check x
   return t
 
-returnValue :: Type -> TypeChecker Result
-returnValue v = do
+returnType :: Type -> TypeChecker Result
+returnType v = do
   env <- ask
   return (v, env)
 
 returnEnv :: Env -> TypeChecker Result
-returnEnv env = return (Void, env)
+returnEnv env = return (Unit, env)
 
 convertType :: Abs.Type -> Type
 convertType (Abs.Int _)        = Int
@@ -30,12 +30,16 @@ convertType (Abs.Void _)       = Void
 convertType (Abs.Fun _ t args) = Fun (map convertType args) (convertType t) initEnv
 convertType (Abs.Infer _)      = Infer
 
-assertSameTypes :: Type -> Type -> Abs.BNFC'Position -> Env -> TypeChecker Result
-assertSameTypes t1 t2 pos env = if t1 == t2
-                               then returnEnv env
-                               else returnEnv env
-                               -- TODO: uncomment when typechecker will be ready
-                               -- else throwE $ MismatchError t1 t2 pos
+assertSameTypes :: Type -> Type -> Abs.BNFC'Position -> TypeChecker ()
+assertSameTypes Infer Infer _ = return ()
+assertSameTypes Infer t pos = throwE $ InferError pos
+assertSameTypes t Infer pos = assertSameTypes Infer t pos
+assertSameTypes t1 t2 pos = if t1 == t2
+                               then return ()
+                               else throwE $ MismatchError t1 t2 pos
 
 emptyPosition :: Abs.BNFC'Position
 emptyPosition = Nothing
+
+uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
+uncurry3 f (x, y, z) = f x y z

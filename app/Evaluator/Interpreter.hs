@@ -29,16 +29,12 @@ instance Eval Abs.Program where
 
 instance Eval Abs.TopDef where
   eval (Abs.FnDef _ t id args b) = do
-    env <- allocate id Null
-    env' <- copyEnv env
-    local (const env) (changeValue id (Fun args t b env'))
+    env <- allocate id emptyFunction >>= copyEnv
+    local (const env) (changeValue id (Fun args t b env))
     returnEnv env
 
 instance Eval Abs.Block where
-  eval (Abs.Block _ stmts) = do
-    env <- ask
-    (v, _) <- eval stmts
-    return (v, env)
+  eval (Abs.Block _ stmts) = evalValue stmts >>= returnValue
 
 instance Eval Abs.Stmt where
   eval (Abs.Empty _) = returnValue Null
@@ -158,24 +154,27 @@ instance Eval Abs.Expr where
     returnValue $ Bool (b1 || b2)
 
   eval (Abs.ELambda _ args t block) = do
-    env <- ask
-    env' <- copyEnv env
-    returnValue $ Fun args t block env'
+    env <- ask >>= copyEnv
+    returnValue $ Fun args t block env
 
   eval (Abs.EApp _ id exprs) = do
     case id of
-      Abs.Ident "print" -> do
-        evaluatedArgs <- mapM evalValue $ take 1 exprs
-        case evaluatedArgs of
-          []    -> Evaluator.Helpers.print ""
-          x : _ -> Evaluator.Helpers.print $ show x
-        returnValue Null
+      Abs.Ident "printInt" -> printBlock
+      Abs.Ident "printString" -> printBlock
+      Abs.Ident "printBool" -> printBlock
       _ -> do
         Fun args t block env <- getValue id
         evaluatedArgs <- mapM evalValue exprs
         let idents = map (\case Abs.Arg _ _ i -> i) args
         (_, env') <- local (const env) (eval $ zip idents evaluatedArgs)
         local (const env') (eval block)
+    where
+        printBlock = do
+            evaluatedArgs <- mapM evalValue $ take 1 exprs
+            case evaluatedArgs of
+              []    -> Evaluator.Helpers.print ""
+              x : _ -> Evaluator.Helpers.print $ show x
+            returnValue Null
 
 instance Eval (Abs.Ident, Val) where
   eval (id, v) = do
@@ -184,23 +183,7 @@ instance Eval (Abs.Ident, Val) where
 
 -- List Eval
 
-instance (Eval Abs.Expr) => Eval [Abs.Expr] where
-  eval (x : xs) = do
-    evaluated@(_, env) <- eval x
-    case xs of
-      [] -> return evaluated
-      _  -> local (const env) (eval xs)
-  eval [] = returnValue Null
-
 instance (Eval Abs.TopDef) => Eval [Abs.TopDef] where
-  eval (x : xs) = do
-    evaluated@(_, env) <- eval x
-    case xs of
-      [] -> return evaluated
-      _  -> local (const env) (eval xs)
-  eval [] = returnValue Null
-
-instance (Eval Abs.Item) => Eval [Abs.Item] where
   eval (x : xs) = do
     evaluated@(_, env) <- eval x
     case xs of
@@ -216,6 +199,22 @@ instance (Eval Abs.Stmt) => Eval [Abs.Stmt] where
       _  -> if v == Null
                then local (const env) (eval xs)
                else return evaluated
+  eval [] = returnValue Null
+
+instance (Eval Abs.Item) => Eval [Abs.Item] where
+  eval (x : xs) = do
+    evaluated@(_, env) <- eval x
+    case xs of
+      [] -> return evaluated
+      _  -> local (const env) (eval xs)
+  eval [] = returnValue Null
+
+instance (Eval Abs.Expr) => Eval [Abs.Expr] where
+  eval (x : xs) = do
+    evaluated@(_, env) <- eval x
+    case xs of
+      [] -> return evaluated
+      _  -> local (const env) (eval xs)
   eval [] = returnValue Null
 
 instance (Eval (Abs.Ident, Val)) => Eval [(Abs.Ident, Val)] where

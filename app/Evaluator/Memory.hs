@@ -49,6 +49,7 @@ copyEnv :: Env -> Interpreter Env
 copyEnv env = do
     let idents = Map.keys env
     evaluated <- mapM getValue idents
+    avalue <- if Map.member (Abs.Ident "a") env then getValue (Abs.Ident "a") else return (Int 10000)
     foldM f initEnv $ zip idents evaluated
     where f :: Env -> (Abs.Ident, Val) -> Interpreter Env
           f env (id, v) = local (const env) (allocate id v)
