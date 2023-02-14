@@ -1,35 +1,80 @@
-# Opis
+# Latte+ interpreter
 
-Interpreter języka Latte rozszerzonego o:
-* inferencję typów
-* funkcje zagnieżdżone ze statycznym wiązaniem
-* funkcje wyższego rzędu, anonimowe i domknięcia
+Interpreter of a small imperative language with:
+* type inference
+* nested functions with static binding
+* higher order functions, lambdas and closures
 
-W rozwiązaniu inspirowałem się opisem monady interpretera znajdującym się w dokumentacji pakietu `transformers`:
-[link](https://hackage.haskell.org/package/transformers-0.6.0.4/docs/Control-Monad-Trans-Class.html#g:7)
+Grammar available [here](Latte.cf)
 
-Typechecker jest niekompletny i z tego powodu do czasu jego uzupełnienia wyłączyłem rzucanie wyjątków gdy typy się nie zgadzają.
+## Examples
 
-## Tabelka funkcjonalności
+```
+int max(int a, int b) {
+  if (a > b) {
+    return a;
+  }
+  return b;
+}
 
-Na 15 punktów
+int min(int a, int b) {
+  if (a < b) {
+    return a;
+  }
+  return b;
+}
 
-* 01 (trzy typy)
-* 02 (literały, arytmetyka, porównania)
-* 03 (zmienne, przypisanie)
-* 04 (print)
-* 05 (while, if)
-* 06 (funkcje lub procedury, rekurencja)
-* 07 (przez zmienną / przez wartość / in/out)
+int main() {
+  int a = 2 + 2 * 2;
+  int b = 120 / 9 - 8;
+  printInt(a % b);
+  printInt(max(a, b));
+  printInt(min(a, b));
+  printBool(a == a);
+  printBool(a == b);
+  printBool(true && false);
 
-Na 20 punktów
-* 09 (przesłanianie i statyczne wiązanie)
-* 10 (obsługa błędów wykonania)
-* 11 (funkcje zwracające wartość)
+  return 0;
+}
+```
 
-Na 30 punktów
-* 12 (4) (statyczne typowanie)
-* 13 (2) (funkcje zagnieżdżone ze statycznym wiązaniem)
-* 17 (4) (funkcje wyższego rzędu, anonimowe, domknięcia)
+```
+auto fun(int x) {
+    return () => auto {
+        int x = 5;
+        return x;
+    };
+}
 
-Razem 30 pkt
+int main() {
+    string a = "a";
+
+    auto g() {
+        string b = "b";
+
+        return () => auto {
+            string c = "c";
+
+            return () => auto {
+                string d = "d";
+                
+                printString(a);
+                printString(b);
+                printString(c);
+                printString(d);
+
+                return 5;
+            };
+        };
+    };
+
+    auto f = g();
+    auto f = f();
+    f();
+
+    f = fun(100);
+    printInt(f());
+
+    return 0;
+}
+```
