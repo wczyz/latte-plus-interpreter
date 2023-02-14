@@ -1,26 +1,18 @@
 module Evaluator.Helpers where
 
-import qualified AbsLatte                   as Abs
-import           Control.Monad.IO.Class
-import           Control.Monad.Trans.Class
-import qualified Control.Monad.Trans.Except as E
-import qualified Control.Monad.Trans.Reader as R
-import           Control.Monad.Trans.State
-import           Evaluator.Memory
-import           Evaluator.Types
+import qualified AbsLatte as Abs
+import Control.Monad.IO.Class (MonadIO (liftIO))
+import Evaluator.Memory (ask, initEnv)
+import Evaluator.Types
 
 print :: String -> Interpreter ()
 print s = liftIO (putStrLn s)
 
-evalValue :: Eval a => a -> Interpreter Val
-evalValue x = do
-  (v, _) <- eval x
-  return v
+evalValue :: (Eval a) => a -> Interpreter Val
+evalValue x = fst <$> eval x
 
 returnValue :: Val -> Interpreter Result
-returnValue v = do
-  env <- ask
-  return (v, env)
+returnValue v = (,) v <$> ask
 
 returnEnv :: Env -> Interpreter Result
 returnEnv env = return (Null, env)
@@ -33,9 +25,3 @@ emptyBlock = Abs.Block emptyPosition []
 
 emptyFunction :: Val
 emptyFunction = Fun [] (Abs.Void emptyPosition) emptyBlock initEnv
-
-instance Show Val where
-  show (Int v)    = show v
-  show (String s) = s
-  show (Bool b)   = show b
-  show _          = ""
